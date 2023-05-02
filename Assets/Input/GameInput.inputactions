@@ -164,7 +164,7 @@
             "id": "83c3579d-94a4-4561-81b8-3c1944481c82",
             "actions": [
                 {
-                    "name": "Skip Intro",
+                    "name": "Retry",
                     "type": "Button",
                     "id": "fed4ec80-6db3-4c0f-bc94-75b5e49d022f",
                     "expectedControlType": "Button",
@@ -181,7 +181,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Skip Intro",
+                    "action": "Retry",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

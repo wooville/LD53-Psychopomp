@@ -8,25 +8,33 @@ public class InputReader : ScriptableObject, GameInput.IGameplayActions, GameInp
 {
     private GameInput _gameInput;
 
-    private void OnEnable() {
+    private void OnEnable()
+    {
         // tie our callbacks to Input System
-        if (_gameInput == null){
+        if (_gameInput == null)
+        {
             _gameInput = new GameInput();
-            
+
             _gameInput.Gameplay.SetCallbacks(this);
             _gameInput.UI.SetCallbacks(this);
 
             SetGameplay();
         }
+
+        GameManager.onGameOver += SetUI;
+        GameManager.onGameReset += SetGameplay;
+
     }
 
     // enable input mappings
-    public void SetGameplay(){
+    public void SetGameplay()
+    {
         _gameInput.UI.Disable();
         _gameInput.Gameplay.Enable();
     }
 
-    public void SetUI(){
+    public void SetUI()
+    {
         _gameInput.UI.Enable();
         _gameInput.Gameplay.Disable();
     }
@@ -35,28 +43,31 @@ public class InputReader : ScriptableObject, GameInput.IGameplayActions, GameInp
     public event Action<Vector2> MoveEvent;
 
     public event Action AbilityEvent;
-    public event Action SkipIntroEvent;
+    public event Action RetryEvent;
 
     public void OnMovement(InputAction.CallbackContext context)
     {
         // Debug.Log($"Phase: {context.phase}, Value: {context.ReadValue<Vector2>()}");
-        if (context.phase == InputActionPhase.Performed) {
+        if (context.phase == InputActionPhase.Performed)
+        {
             MoveEvent?.Invoke(context.ReadValue<Vector2>());
         }
     }
 
     public void OnAbility(InputAction.CallbackContext context)
     {
-        if (context.phase == InputActionPhase.Performed) {
+        if (context.phase == InputActionPhase.Performed)
+        {
             AbilityEvent?.Invoke();
             // SetUI();
         }
     }
 
-    public void OnSkipIntro(InputAction.CallbackContext context)
+    public void OnRetry(InputAction.CallbackContext context)
     {
-        if (context.phase == InputActionPhase.Performed) {
-            SkipIntroEvent?.Invoke();
+        if (context.phase == InputActionPhase.Performed)
+        {
+            RetryEvent?.Invoke();
             SetGameplay();
         }
     }
